@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.cluster import KMeans
 from math import ceil
 from utils import _valid_perc
+from logger import _logger
 
 
 def segment_data_splitter(
@@ -37,6 +38,26 @@ def segment_data_splitter(
     return data_list
 
 
+def _split_data_on_label(*, data, labels):
+    """Split the dataset based on label
+
+    Args:
+        data (array-like): data to split
+        labels (array-like): labels to split data on
+
+    Returns:
+        array-like: split data
+    """
+    split_data = list()
+    data["label"] = labels
+    for label in np.unique(labels):
+        cluster_data = data[data["label"] == label]
+        cluster_data.drop("label", inplace=True, axis=1)
+        split_data.append(cluster_data)
+
+    return split_data
+
+
 def kmeans_data_splitter(
     *, data_to_split: pd.DataFrame | list[dict], additional_params: dict = {}
 ) -> list[pd.DataFrame] | list[list[dict]]:
@@ -48,16 +69,9 @@ def kmeans_data_splitter(
     Returns:
         list[pd.DataFrame] | list[list[dict]]: list of splitted data_to_split
     """
-    # _logger.log(f"Kmeans model params:- {additional_params}")
+    _logger.log(f"Kmeans model params:- {additional_params}")
 
     labels = KMeans(**additional_params).fit(data_to_split).labels_
     labels = labels.astype(int)
 
-    split_data = list()
-    data_to_split["label"] = labels
-    for label in np.unique(labels):
-        cluster_data = data_to_split[data_to_split["label"] == label]
-        cluster_data.drop("label", inplace=True, axis=1)
-        split_data.append(cluster_data)
-
-    return split_data
+    return _split_data_on_label(data=data_to_split, labels=labels)

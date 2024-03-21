@@ -1,4 +1,5 @@
 import pandas as pd
+from path import find_closest
 from utils import _valid_perc
 from split_data import segment_data_splitter, kmeans_data_splitter
 from logger import _logger

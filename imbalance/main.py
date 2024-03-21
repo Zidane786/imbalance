@@ -132,7 +132,7 @@ cluster_5_fit_resample_params = {
     "additional_params": additional_params,
 }
 
-TRESHOLD_PERC = 0.20
+TRESHOLD_PERC = 0.60
 FINAL_PRED_TRESHOLD = int(
     math.floor(cluster_5_fit_resample_params["n_majority_split"] * TRESHOLD_PERC)
 )
@@ -227,7 +227,7 @@ cluster_10_fit_resample_params = {
     "additional_params": additional_params,
 }
 
-TRESHOLD_PERC = 0.20
+TRESHOLD_PERC = 0.60
 FINAL_PRED_TRESHOLD = int(
     math.floor(cluster_10_fit_resample_params["n_majority_split"] * TRESHOLD_PERC)
 )

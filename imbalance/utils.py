@@ -9,6 +9,7 @@ import pandas as pd
 import numpy as np
 from path import find_closest
 import os
+from logger import _logger
 
 
 def _valid_perc(perc: int | float) -> float:
